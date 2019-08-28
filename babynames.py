@@ -13,6 +13,7 @@
 import sys
 import re
 import argparse
+import os
 
 """
 Define the extract_names() function below and change main()
@@ -46,7 +47,11 @@ def extract_names(filename):
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     # +++your code here+++
-    return
+    with open(filename) as file:
+        for lines in file:
+            r = re.findall("([0-9]+).+>(\w+).+>(\w+)", lines)
+            if len(r) > 0:
+                print(r)
 
 
 def create_parser():
@@ -74,6 +79,11 @@ def main():
     create_summary = args.summaryfile
 
     # +++your code here+++
+    for filename in os.listdir(os.getcwd()):
+        r = re.findall("baby[0-9]+.+", filename)
+        if len(r) > 0:
+            extract_names(r[0])
+
     # For each filename, get the names, then either print the text output
     # or write it to a summary file
 
