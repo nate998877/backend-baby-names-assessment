@@ -47,18 +47,33 @@ def extract_names(filename):
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     # +++your code here+++
+    boy_dict = {}
+    girl_dict = {}
     with open(filename) as file:
         for lines in file:
             r = re.findall("([0-9]+).+>(\w+).+>(\w+)", lines)
             if len(r) > 0:
-                print(r)
+                r = r[0]
+                boy_dict[r[1]] = r[0]
+                girl_dict[r[2]] = r[0]
+    r = re.findall('[0-9]+', filename)
+    arr = [r[0]]
+    keys = boy_dict.keys()
+    keys.sort()
+    for key in keys:
+        arr.append(key + " " + boy_dict[key])
+    keys = girl_dict.keys()
+    keys.sort()
+    for key in keys:
+        arr.append(key + " " + girl_dict[key])
+    return arr
+
 
 
 def create_parser():
     """Create a cmd line parser object with 2 argument definitions"""
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--summaryfile', help='creates a summary file', action='store_true')
+    parser.add_argument('--summaryfile', help='creates a summary file', action='store_true')
     # The nargs option instructs the parser to expect 1 or more filenames.
     # It will also expand wildcards just like the shell, e.g. 'baby*.html' will work.
     parser.add_argument('files', help='filename(s) to parse', nargs='+')
@@ -79,10 +94,17 @@ def main():
     create_summary = args.summaryfile
 
     # +++your code here+++
-    for filename in os.listdir(os.getcwd()):
-        r = re.findall("baby[0-9]+.+", filename)
-        if len(r) > 0:
-            extract_names(r[0])
+    for filename in args.files:
+        name_list = extract_names(filename)
+        if create_summary:
+            with open(filename+".summary", "wr+") as f:
+                f.write("\n".join(name_list))
+        else:
+            print(name_list)
+    # for filename in os.listdir(os.getcwd()):
+        # r = re.findall("baby[0-9]+.+", filename)
+        # if len(r) > 0:
+            # extract_names(r[0])
 
     # For each filename, get the names, then either print the text output
     # or write it to a summary file
