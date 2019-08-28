@@ -93,7 +93,6 @@ def main():
     # option flag
     create_summary = args.summaryfile
 
-    # +++your code here+++
     for filename in args.files:
         name_list = extract_names(filename)
         if create_summary:
