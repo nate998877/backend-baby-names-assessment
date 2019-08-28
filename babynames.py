@@ -101,13 +101,6 @@ def main():
                 f.write("\n".join(name_list))
         else:
             print(name_list)
-    # for filename in os.listdir(os.getcwd()):
-        # r = re.findall("baby[0-9]+.+", filename)
-        # if len(r) > 0:
-            # extract_names(r[0])
-
-    # For each filename, get the names, then either print the text output
-    # or write it to a summary file
 
 
 if __name__ == '__main__':
